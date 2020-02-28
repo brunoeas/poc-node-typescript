@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
 
 /**
  * Classe modelo para ser extendida pelos Services
@@ -20,8 +20,8 @@ abstract class Service {
    *
    * @param {Router} router - Router para ser injetado
    */
-  public constructor(router: Router) {
-    this.router = router;
+  protected constructor() {
+    this.router = express.Router();
   }
 
   /**
