@@ -1,9 +1,9 @@
-import express from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
-import routes from './routes';
+import getRoutes from './routes';
 
 /**
- * Classe que inicia o App
+ * Classe principal que inicia o App
  *
  * @author Bruno Eduardo <bruno.soares@kepha.com.br>
  * @class App
@@ -12,9 +12,9 @@ class App {
   /**
    * Express
    *
-   * @type {express.Application}
+   * @type {Application}
    */
-  public express: express.Application;
+  public express: Application;
 
   /**
    * Cria uma intância do App e inicia os middlewares e routes
@@ -37,8 +37,7 @@ class App {
    * Inicia as Rotas/Endpoints da aplicação
    */
   private routes(): void {
-    const router = express.Router();
-    routes(router).forEach(route => this.express.use('/', route.getRouter()))
+    getRoutes().forEach(route => this.express.use('/', route.getRouter()));
   }
 }
 

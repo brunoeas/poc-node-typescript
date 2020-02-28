@@ -1,3 +1,6 @@
+import { InitOptions } from 'sequelize/types';
+import sequelize from '../models';
+
 /**
  * Configurações padrões da definição de uma tabela no Sequelize
  */
@@ -10,17 +13,19 @@ const defaultConfig = {
   // disable the modification of tablenames; By default, sequelize will automatically
   // transform all passed model names (first parameter of define) into plural.
   // if you don't want that, set the following
-  freezeTableName: true
+  freezeTableName: true,
+  // Sequelize
+  sequelize
 };
 
 /**
- * Retorna as configurações padrões para a definição de uma tabela no Sequelize
+ * Retorna as configurações padrões mescladas com adicionais para a definição de um modelo de entidade no Sequelize
  *
  * @author Bruno Eduardo <bruno.soares@kepha.com.br>
  * @param {Object} [additional={}] - Configurações adicionais
- * @returns {Object} Configurações para definição de uma tabela
+ * @returns {InitOptions} Configurações padrões mescladas com adicionais para definição de uma tabela
  */
-function getDefaultTableConfig(additional = {}) {
+function getDefaultTableConfig(additional: any = {}): InitOptions {
   return { ...defaultConfig, ...additional };
 }
 

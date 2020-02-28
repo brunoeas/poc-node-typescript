@@ -1,23 +1,20 @@
 import getDefaultTableConfig from '../config/default-table-config';
-import { Table, Column, DataType, AutoIncrement, PrimaryKey } from 'sequelize-typescript';
-import { Model } from 'sequelize/types';
+import { Model, DataTypes } from 'sequelize';
+import Endereco from './endereco';
 
 /**
  * Modelo do Usuário
  *
  * @author Bruno Eduardo <bruno.soares@kepha.com.br>
  * @class Usuario
+ * @extends {Model} - Modelo de entidade do Sequelize
  */
-@Table(getDefaultTableConfig())
-class Usuario extends Model<Usuario> {
+class Usuario extends Model {
   /**
    * ID
    *
    * @type {number}
    */
-  @PrimaryKey
-  @AutoIncrement
-  @Column({ field: 'id_usuario', type: DataType.INTEGER, allowNull: false })
   public idUsuario: number;
 
   /**
@@ -25,7 +22,6 @@ class Usuario extends Model<Usuario> {
    *
    * @type {string}
    */
-  @Column({ field: 'nm_usuario', allowNull: false, type: DataType.STRING })
   public nmUsuario: string;
 
   /**
@@ -33,25 +29,41 @@ class Usuario extends Model<Usuario> {
    *
    * @type {string}
    */
-  @Column({ field: 'dt_nascimento', type: DataType.DATE })
   public dtNascimento: string;
 
   /**
-   * Cria uma instância do UsuárioModel e inicia suas propriedades
+   * Lista de Endereços
    *
-   * @author Bruno Eduardo <bruno.soares@kepha.com.br>
-   * @param {*} [params={}] - Parâmetros para iniciar as propriedades do modelo
+   * @type {Endereco[]}
    */
-  public constructor(params: any = {}) {
-    super();
-    const { idUsuario, nmUsuario, dtNascimento } = params;
-
-    this.idUsuario = idUsuario;
-    this.nmUsuario = nmUsuario;
-    this.dtNascimento = dtNascimento;
-  }
-
-  static getEntity() {}
+  public enderecoList: Endereco[];
 }
+
+/**
+ * Inicia a entidade Usuário
+ */
+Usuario.init(
+  {
+    idUsuario: {
+      field: 'id_usuario',
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    nmUsuario: {
+      field: 'nm_usuario',
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    dtNascimento: {
+      field: 'dt_nascimento',
+      type: DataTypes.DATE
+    }
+  },
+  getDefaultTableConfig({ tableName: 'usuario' })
+);
+
+// Usuario.sync({ alter: true });
 
 export default Usuario;
