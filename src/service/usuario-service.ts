@@ -18,8 +18,6 @@ class UsuarioService extends Service {
 
   /**
    * Cria uma instância do Service do Usuário e setta os Endpoints
-   *
-   * @param {Router} router - Router
    */
   public constructor() {
     super();
@@ -108,4 +106,4 @@ class UsuarioService extends Service {
   }
 }
 
-export default UsuarioService;
+export default new UsuarioService();

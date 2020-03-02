@@ -1,7 +1,7 @@
 import getDefaultTableConfig from '../config/default-table-config';
 import { Model, DataTypes } from 'sequelize';
 import Usuario from './usuario';
-import TipoEnderecoEnum from '../src/enumeration/tipo-endereco-enum';
+import TipoEnderecoEnum from '../enumeration/tipo-endereco-enum';
 
 /**
  * Model do Endereço

@@ -29,7 +29,7 @@ class SequelizeConfiguration {
    */
   public constructor() {
     this.env = process.env.NODE_ENV || 'development';
-    this.config = require(__dirname + '/../config/config.json')[this.env];
+    this.config = require('../config/config')[this.env];
 
     if (this.config.use_env_variable) {
       this.sequelize = new Sequelize(process.env[this.config.use_env_variable], this.config);
