@@ -104,4 +104,7 @@ dist
 .tern-port
 
 # Configs database sequelize
-config/config.json
+src/config/config.ts
+
+# Build
+build

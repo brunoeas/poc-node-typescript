@@ -1,6 +1,6 @@
 import EnderecoConverter from '../converter/endereco-converter';
-import Endereco from '../../models/endereco';
-import Usuario from '../../models/usuario';
+import Endereco from '../models/endereco';
+import Usuario from '../models/usuario';
 
 /**
  * Controller do Endereço
@@ -26,9 +26,7 @@ class EnderecoController {
 
     await this.setUsuarioInEndereco(endereco);
 
-    return Endereco.create(endereco, { include: [{ model: Usuario, as: 'usuario' }] }).then(data =>
-      this.enderecoConverter.ormToDto(data)
-    );
+    return Endereco.create(endereco).then(data => this.enderecoConverter.ormToDto(data));
   }
 
   /**
@@ -96,13 +94,17 @@ class EnderecoController {
    * @returns {Promise<void>} Promise void
    */
   private async setUsuarioInEndereco(endereco: any): Promise<void> {
-    const usuario = await Usuario.findByPk(endereco.usuario.idUsuario);
+    const usuario: Usuario = await Usuario.findByPk(endereco.usuario.idUsuario).catch(err => {
+      console.error('> Erro ao buscar Usuário para settar no Endereço: ', err);
+      return null;
+    });
 
     if (!usuario) {
       throw new Error('Usuário inexistente');
     }
 
     endereco.usuario = usuario;
+    endereco.usuario.idUsuario = usuario.idUsuario;
   }
 }
 

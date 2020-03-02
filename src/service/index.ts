@@ -16,9 +16,7 @@ abstract class Service {
   protected router: Router;
 
   /**
-   * Construtor padrão passando o Router para ser injetado
-   *
-   * @param {Router} router - Router para ser injetado
+   * Construtor padrão iniciando o Router
    */
   protected constructor() {
     this.router = express.Router();

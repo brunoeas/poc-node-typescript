@@ -1,5 +1,5 @@
 import Converter from '.';
-import Usuario from '../../models/usuario';
+import Usuario from '../models/usuario';
 import { formatDate } from '../util/util';
 
 /**
@@ -16,7 +16,7 @@ class UsuarioConverter extends Converter<Usuario> {
   public dtoToOrm(dto: any, orm: Usuario = this.getOrmNewInstance()): Usuario {
     orm.idUsuario = dto.idUsuario;
     orm.nmUsuario = dto.nmUsuario;
-    orm.dtNascimento = formatDate(dto.dtNascimento);
+    orm.dtNascimento = formatDate(dto.dtNascimento, 'YYYY-MM-DD');
 
     return orm;
   }
@@ -27,7 +27,7 @@ class UsuarioConverter extends Converter<Usuario> {
   public ormToDto(orm: Usuario, dto: any = {}) {
     dto.idUsuario = orm.idUsuario;
     dto.nmUsuario = orm.nmUsuario;
-    dto.dtNascimento = formatDate(orm.dtNascimento);
+    dto.dtNascimento = formatDate(orm.dtNascimento, 'YYYY-MM-DD');
 
     return dto;
   }

@@ -1,5 +1,5 @@
 import Converter from '.';
-import Endereco from '../../models/endereco';
+import Endereco from '../models/endereco';
 import UsuarioConverter from './usuario-converter';
 
 /**

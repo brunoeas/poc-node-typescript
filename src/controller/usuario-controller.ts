@@ -1,7 +1,8 @@
-import Usuario from '../../models/usuario';
+import Usuario from '../models/usuario';
 import UsuarioConverter from '../converter/usuario-converter';
-import Endereco from '../../models/endereco';
+import Endereco from '../models/endereco';
 import EnderecoConverter from '../converter/endereco-converter';
+import { formatDate } from '../util/util';
 
 /**
  * Controller do Usuário
@@ -29,6 +30,7 @@ class UsuarioController {
   public async saveUsuario(dto: any): Promise<any> {
     const usuario = this.usuarioConverter.filterPropsDto(dto);
     usuario.idUsuario = null;
+    usuario.dtNascimento = formatDate(usuario.dtNascimento, 'YYYY-MM-DD');
 
     return Usuario.create(usuario).then(data => this.usuarioConverter.ormToDto(data));
   }
@@ -39,10 +41,17 @@ class UsuarioController {
    * @param {*} dto - DTO do Usuário
    * @returns {Promise<any>} Promise
    */
-  public async updateUsuario(dto: any): Promise<any> {
+  public async updateUsuario(dto: any): Promise<void> {
     const usuario = this.usuarioConverter.filterPropsDto(dto);
+    usuario.dtNascimento = formatDate(usuario.dtNascimento, 'YYYY-MM-DD');
 
-    return Usuario.update(usuario, { where: { idUsuario: usuario.idUsuario } });
+    const [numberOfAffectedRows] = await Usuario.update(usuario, {
+      where: { idUsuario: usuario.idUsuario }
+    });
+
+    if (numberOfAffectedRows === 0) {
+      throw { code: 'USUARIO_INEXISTENTE', msg: 'Usuário inexistente' };
+    }
   }
 
   /**

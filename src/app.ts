@@ -1,6 +1,6 @@
 import express, { Application } from 'express';
 import cors from 'cors';
-import getRoutes from './routes';
+import services from './routes';
 
 /**
  * Classe principal que inicia o App
@@ -37,7 +37,7 @@ class App {
    * Inicia as Rotas/Endpoints da aplicação
    */
   private routes(): void {
-    getRoutes().forEach(route => this.express.use('/', route.getRouter()));
+    services.forEach(route => this.express.use('/', route.getRouter()));
   }
 }
 
