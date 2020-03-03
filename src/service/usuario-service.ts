@@ -1,7 +1,6 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import Service from './index';
 import UsuarioController from '../controller/usuario-controller';
-import { handleError } from '../util/util';
 
 /**
  * Service do Usuário
@@ -41,12 +40,13 @@ class UsuarioService extends Service {
    * @private
    * @param {Request} req - Request
    * @param {Response} res - Response
+   * @param {NextFunction} next - Função Next
    */
-  private findAllUsuarios(req: Request, res: Response): void {
+  private findAllUsuarios(req: Request, res: Response, next: NextFunction): void {
     this.usuarioController
       .findAllUsuarios()
       .then(usuarios => res.send(usuarios))
-      .catch(err => handleError(res, err));
+      .catch(next);
   }
 
   /**
@@ -55,12 +55,13 @@ class UsuarioService extends Service {
    * @private
    * @param {Request} req - Request
    * @param {Response} res - Response
+   * @param {NextFunction} next - Função Next
    */
-  private findUsuarioById(req: Request, res: Response): void {
+  private findUsuarioById(req: Request, res: Response, next: NextFunction): void {
     this.usuarioController
       .findUsuarioById(+req.params.id)
       .then(data => res.send(data))
-      .catch(err => handleError(res, err));
+      .catch(next);
   }
 
   /**
@@ -69,12 +70,13 @@ class UsuarioService extends Service {
    * @private
    * @param {Request} req - Request
    * @param {Response} res - Response
+   * @param {NextFunction} next - Função Next
    */
-  private saveUsuario(req: Request, res: Response): void {
+  private saveUsuario(req: Request, res: Response, next: NextFunction): void {
     this.usuarioController
       .saveUsuario(req.body)
       .then(usuario => res.send(usuario))
-      .catch(err => handleError(res, err, 'Erro ao criar Usuário'));
+      .catch(next);
   }
 
   /**
@@ -83,12 +85,13 @@ class UsuarioService extends Service {
    * @private
    * @param {Request} req - Request
    * @param {Response} res - Response
+   * @param {NextFunction} next - Função Next
    */
-  private updateUsuario(req: Request, res: Response): void {
+  private updateUsuario(req: Request, res: Response, next: NextFunction): void {
     this.usuarioController
       .updateUsuario(req.body)
       .then(() => res.send())
-      .catch(err => handleError(res, err, 'Erro ao atualizar Usuário'));
+      .catch(next);
   }
 
   /**
@@ -97,12 +100,13 @@ class UsuarioService extends Service {
    * @private
    * @param {Request} req - Request
    * @param {Response} res - Response
+   * @param {NextFunction} next - Função Next
    */
-  private deleteUsuarioById(req: Request, res: Response) {
+  private deleteUsuarioById(req: Request, res: Response, next: NextFunction) {
     this.usuarioController
       .deleteUsuarioById(+req.params.id)
       .then(() => res.send())
-      .catch(err => handleError(res, err, 'Erro ao deletar Usuário'));
+      .catch(next);
   }
 }
 

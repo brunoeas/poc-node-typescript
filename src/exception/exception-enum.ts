@@ -17,7 +17,7 @@ enum ExceptionEnum {
  * @returns {string} Key/code extraído
  */
 function getExceptionCode(value: ExceptionEnum): string {
-  return Object.keys(ExceptionEnum).filter(item => item === value)[0];
+  return Object.keys(ExceptionEnum).find(enumValue => ExceptionEnum[enumValue] === value);
 }
 
 export { getExceptionCode };
