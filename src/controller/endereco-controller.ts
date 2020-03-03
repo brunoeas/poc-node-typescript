@@ -1,6 +1,8 @@
 import EnderecoConverter from '../converter/endereco-converter';
 import Endereco from '../models/endereco';
 import Usuario from '../models/usuario';
+import CustomException from '../exception/custom-exception';
+import ExceptionEnum from '../exception/exception-enum';
 
 /**
  * Controller do Endereço
@@ -45,7 +47,7 @@ class EnderecoController {
     });
 
     if (numberOfAffectedRows === 0) {
-      throw new Error('Endereço inexistente');
+      throw new CustomException(ExceptionEnum.ENDERECO_INEXISTENTE);
     }
   }
 
@@ -59,7 +61,7 @@ class EnderecoController {
     const numberOfDestroyedRows = await Endereco.destroy({ where: { idEndereco: id } });
 
     if (numberOfDestroyedRows === 0) {
-      throw new Error('Endereço inexistente');
+      throw new CustomException(ExceptionEnum.ENDERECO_INEXISTENTE);
     }
   }
 
@@ -94,13 +96,10 @@ class EnderecoController {
    * @returns {Promise<void>} Promise void
    */
   private async setUsuarioInEndereco(endereco: any): Promise<void> {
-    const usuario: Usuario = await Usuario.findByPk(endereco.usuario.idUsuario).catch(err => {
-      console.error('> Erro ao buscar Usuário para settar no Endereço: ', err);
-      return null;
-    });
+    const usuario: Usuario = await Usuario.findByPk(endereco.usuario.idUsuario);
 
     if (!usuario) {
-      throw new Error('Usuário inexistente');
+      throw new CustomException(ExceptionEnum.USUARIO_INEXISTENTE);
     }
 
     endereco.usuario = usuario;

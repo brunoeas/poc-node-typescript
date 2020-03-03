@@ -1,7 +1,6 @@
 import Service from '.';
 import EnderecoController from '../controller/endereco-controller';
-import { Response, Request } from 'express';
-import { handleError } from '../util/util';
+import { Response, Request, NextFunction } from 'express';
 
 /**
  * Service do Endereço
@@ -41,12 +40,13 @@ class EnderecoService extends Service {
    * @private
    * @param {Request} req - Request
    * @param {Response} res - Response
+   * @param {NextFunction} next - Função Next
    */
-  private saveEndereco(req: Request, res: Response): void {
+  private saveEndereco(req: Request, res: Response, next: NextFunction): void {
     this.enderecoController
       .saveEndereco(req.body)
       .then(data => res.send(data))
-      .catch(err => handleError(res, err, 'Erro ao salvar novo Endereço'));
+      .catch(next);
   }
 
   /**
@@ -55,12 +55,13 @@ class EnderecoService extends Service {
    * @private
    * @param {Request} req - Request
    * @param {Response} res - Response
+   * @param {NextFunction} next - Função Next
    */
-  private updateEndereco(req: Request, res: Response): void {
+  private updateEndereco(req: Request, res: Response, next: NextFunction): void {
     this.enderecoController
       .updateEndereco(req.body)
       .then(() => res.send())
-      .catch(err => handleError(res, err));
+      .catch(next);
   }
 
   /**
@@ -69,12 +70,13 @@ class EnderecoService extends Service {
    * @private
    * @param {Request} req - Request
    * @param {Response} res - Response
+   * @param {NextFunction} next - Função Next
    */
-  private deleteEndereco(req: Request, res: Response): void {
+  private deleteEndereco(req: Request, res: Response, next: NextFunction): void {
     this.enderecoController
       .deleteEnderecoById(+req.params.id)
       .then(() => res.send())
-      .catch(err => handleError(res, err));
+      .catch(next);
   }
 
   /**
@@ -83,12 +85,13 @@ class EnderecoService extends Service {
    * @private
    * @param {Request} req - Request
    * @param {Response} res - Response
+   * @param {NextFunction} next - Função Next
    */
-  private findEnderecoById(req: Request, res: Response): void {
+  private findEnderecoById(req: Request, res: Response, next: NextFunction): void {
     this.enderecoController
       .findEnderecoById(+req.params.id)
       .then(data => res.send(data))
-      .catch(err => handleError(res, err));
+      .catch(next);
   }
 
   /**
@@ -97,12 +100,13 @@ class EnderecoService extends Service {
    * @private
    * @param {Request} req - Request
    * @param {Response} res - Response
+   * @param {NextFunction} next - Função Next
    */
-  private findAll(req: Request, res: Response): void {
+  private findAll(req: Request, res: Response, next: NextFunction): void {
     this.enderecoController
       .findAllEnderecos()
       .then(data => res.send(data))
-      .catch(err => handleError(res, err));
+      .catch(next);
   }
 }
 

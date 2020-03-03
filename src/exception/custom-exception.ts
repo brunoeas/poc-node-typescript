@@ -1,10 +1,16 @@
 import ExceptionEnum, { getExceptionCode } from './exception-enum';
 
+/**
+ * Classe de exceções customizadas
+ *
+ * @author Bruno Eduardo <bruno.soares@kepha.com.br>
+ * @class CustomException
+ */
 class CustomException {
   /**
    * Mensagem do erro
    */
-  public msg: string;
+  public message: string;
 
   /**
    * Código do erro
@@ -17,7 +23,7 @@ class CustomException {
    * @param {ExceptionEnum} exception - Exceção
    */
   public constructor(exception: ExceptionEnum) {
-    this.msg = exception;
+    this.message = exception;
     this.code = getExceptionCode(exception);
   }
 }

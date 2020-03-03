@@ -1,6 +1,7 @@
-import express, { Application } from 'express';
+import express, { Application, Response, Request, NextFunction } from 'express';
 import cors from 'cors';
 import services from './routes';
+import CustomException from './exception/custom-exception';
 
 /**
  * Classe principal que inicia o App
@@ -34,10 +35,28 @@ class App {
   }
 
   /**
-   * Inicia as Rotas/Endpoints da aplicação
+   * Inicia as Rotas/Endpoints e o tratamento de erros da aplicação
    */
   private routes(): void {
     services.forEach(route => this.express.use('/', route.getRouter()));
+    this.handleErrors();
+  }
+
+  /**
+   * Aplica o tratamento de erros da aplicação
+   */
+  private handleErrors() {
+    this.express.use(function(err: any, req: Request, res: Response, next: NextFunction) {
+      if (err instanceof CustomException) {
+        res.status(400).send(err);
+      } else {
+        console.error(`> Ocorreu um erro não tratado: \n${err}`);
+        res.status(500).send({
+          message: err?.message || 'Ocorreu um erro no servidor',
+          error: process.env.APP_IN_PROD ? undefined : err
+        });
+      }
+    });
   }
 }
 
